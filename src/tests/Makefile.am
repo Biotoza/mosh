@@ -39,8 +39,8 @@ displaytests = \
 	unicode-later-combining.test \
 	window-resize.test
 
-check_PROGRAMS = ocb-aes encrypt-decrypt base64 nonce-incr inpty is-utf8-locale resize-safety
-TESTS = ocb-aes encrypt-decrypt base64 nonce-incr resize-safety local.test $(displaytests)
+check_PROGRAMS = ocb-aes encrypt-decrypt base64 nonce-incr inpty is-utf8-locale resize-safety fragment-robustness
+TESTS = ocb-aes encrypt-decrypt base64 nonce-incr resize-safety fragment-robustness local.test $(displaytests)
 XFAIL_TESTS = \
 	e2e-failure.test \
 	emulation-attributes-256color8.test
@@ -76,6 +76,10 @@ is_utf8_locale_LDADD = ../util/libmoshutil.a $(LIBUTIL)
 resize_safety_SOURCES = resize-safety.cc
 resize_safety_CPPFLAGS = -I$(top_srcdir)/ $(TINFO_CFLAGS)
 resize_safety_LDADD = ../terminal/libmoshterminal.a ../util/libmoshutil.a $(TINFO_LIBS)
+
+fragment_robustness_SOURCES = fragment-robustness.cc
+fragment_robustness_CPPFLAGS = -I$(top_srcdir)/ $(protobuf_CFLAGS) $(CRYPTO_CFLAGS)
+fragment_robustness_LDADD = ../network/libmoshnetwork.a ../crypto/libmoshcrypto.a ../protobufs/libmoshprotos.a ../util/libmoshutil.a $(protobuf_LIBS) $(CRYPTO_LIBS)
 
 clean-local: clean-local-check
 .PHONY: clean-local-check
